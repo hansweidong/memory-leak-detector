@@ -80,8 +80,8 @@ void Raphael::clean_cache(JNIEnv *env) {
     if ((pDir = opendir(mSpace)) != NULL) {
         while ((pDirent = readdir(pDir)) != NULL) {
             if (strcmp(pDirent->d_name, ".") != 0 && strcmp(pDirent->d_name, "..") != 0) {
-                LOGGER("remove maps and report");
-                if (strcmp(pDirent->d_name, "maps") == 0 || strcmp(pDirent->d_name, "report") == 0) {
+                LOGGER("remove maps and report %s", pDirent->d_name);
+                if (strstr(pDirent->d_name, "maps") || strstr(pDirent->d_name, "report")) {
                     if (snprintf(path, MAX_BUFFER_SIZE, "%s/%s", mSpace, pDirent->d_name) <
                         MAX_BUFFER_SIZE) {
                         remove(path);
