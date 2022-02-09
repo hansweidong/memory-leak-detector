@@ -22,6 +22,16 @@
 #include "MemoryCache.h"
 #include "PltGotHookProxy.h"
 
+void removeFile(const char *filepath) {
+    LOGGER("removefile name %s", filepath);
+    FILE *file;
+    file = fopen(filepath, "r");
+    if (file) {
+        fclose(file);
+        remove(filepath);
+    }
+}
+
 //**************************************************************************************************
 void Raphael::start(JNIEnv *env, jobject obj, jint configs, jstring space, jstring regex) {
     const char *string = (char *) env->GetStringUTFChars(space, 0);
@@ -78,17 +88,26 @@ void Raphael::clean_cache(JNIEnv *env) {
 
     char path[MAX_BUFFER_SIZE];
     if ((pDir = opendir(mSpace)) != NULL) {
-        while ((pDirent = readdir(pDir)) != NULL) {
-            if (strcmp(pDirent->d_name, ".") != 0 && strcmp(pDirent->d_name, "..") != 0) {
-                LOGGER("remove maps and report %s", pDirent->d_name);
-                if (strstr(pDirent->d_name, "maps") || strstr(pDirent->d_name, "report")) {
-                    if (snprintf(path, MAX_BUFFER_SIZE, "%s/%s", mSpace, pDirent->d_name) <
-                        MAX_BUFFER_SIZE) {
-                        remove(path);
-                    }
-                }
-            }
-        }
+
+//        while ((pDirent = readdir(pDir)) != NULL) {
+//            if (strcmp(pDirent->d_name, ".") != 0 && strcmp(pDirent->d_name, "..") != 0) {
+//                LOGGER("remove maps and report: FileName => %s", pDirent->d_name);
+//                if (strcmp(pDirent->d_name, "maps") == 0 || strcmp(pDirent->d_name, "report") == 0) {
+//                    LOGGER("it tally in maps or report file");
+//                    if (snprintf(path, MAX_BUFFER_SIZE, "%s/%s", mSpace, pDirent->d_name) < MAX_BUFFER_SIZE) {
+//                        LOGGER("remove path %s", path);
+//                        remove(path);
+//                    }
+//                }
+//            }
+//        }
+
+        snprintf(path, MAX_BUFFER_SIZE, "%s/%s", mSpace, "maps");
+        removeFile(path);
+
+        snprintf(path, MAX_BUFFER_SIZE, "%s/%s", mSpace, "report");
+        removeFile(path);
+
         closedir(pDir);
     } else if (mkdir(mSpace, 777) != 0) {
         LOGGER("create %s failed, please check permissions", mSpace);
