@@ -22,6 +22,8 @@
 #include "MemoryCache.h"
 #include "PltGotHookProxy.h"
 
+//**************************************************************************************************
+
 void removeFile(const char *filepath) {
     LOGGER("removefile name %s", filepath);
     FILE *file;
@@ -32,7 +34,6 @@ void removeFile(const char *filepath) {
     }
 }
 
-//**************************************************************************************************
 void Raphael::start(JNIEnv *env, jobject obj, jint configs, jstring space, jstring regex) {
     const char *string = (char *) env->GetStringUTFChars(space, 0);
     size_t length = strlen(string);
@@ -88,20 +89,7 @@ void Raphael::clean_cache(JNIEnv *env) {
 
     char path[MAX_BUFFER_SIZE];
     if ((pDir = opendir(mSpace)) != NULL) {
-
-//        while ((pDirent = readdir(pDir)) != NULL) {
-//            if (strcmp(pDirent->d_name, ".") != 0 && strcmp(pDirent->d_name, "..") != 0) {
-//                LOGGER("remove maps and report: FileName => %s", pDirent->d_name);
-//                if (strcmp(pDirent->d_name, "maps") == 0 || strcmp(pDirent->d_name, "report") == 0) {
-//                    LOGGER("it tally in maps or report file");
-//                    if (snprintf(path, MAX_BUFFER_SIZE, "%s/%s", mSpace, pDirent->d_name) < MAX_BUFFER_SIZE) {
-//                        LOGGER("remove path %s", path);
-//                        remove(path);
-//                    }
-//                }
-//            }
-//        }
-
+        LOGGER("removeFile: maps and report");
         snprintf(path, MAX_BUFFER_SIZE, "%s/%s", mSpace, "maps");
         removeFile(path);
 
