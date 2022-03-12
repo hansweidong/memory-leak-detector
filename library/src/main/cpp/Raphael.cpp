@@ -89,13 +89,13 @@ void Raphael::clean_cache(JNIEnv *env) {
 
     char path[MAX_BUFFER_SIZE];
     if ((pDir = opendir(mSpace)) != NULL) {
-        LOGGER("removeFile: maps and report");
-        snprintf(path, MAX_BUFFER_SIZE, "%s/%s", mSpace, "maps");
-        removeFile(path);
-
-        snprintf(path, MAX_BUFFER_SIZE, "%s/%s", mSpace, "report");
-        removeFile(path);
-
+        while ((pDirent = readdir(pDir)) != NULL) {
+            if (strcmp(pDirent->d_name, ".") != 0 && strcmp(pDirent->d_name, "..") != 0) {
+                if (snprintf(path, MAX_BUFFER_SIZE, "%s/%s", mSpace, pDirent->d_name) < MAX_BUFFER_SIZE) {
+                    remove(path);
+                }
+            }
+        }
         closedir(pDir);
     } else if (mkdir(mSpace, 777) != 0) {
         LOGGER("create %s failed, please check permissions", mSpace);
