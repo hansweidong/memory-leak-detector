@@ -63,11 +63,12 @@ void Raphael::stop(JNIEnv *env, jobject obj) {
 
 void Raphael::print(JNIEnv *env, jobject obj) {
     pthread_setspecific(guard, (void *) 1);
-
+    LOGGER("print >>> pthread_setspecific done");
     clean_cache(env);
+    LOGGER("print >>> clean_cache done");
     mCache->print();
+    LOGGER("print >>>  mCache->print() done");
     dump_system(env);
-
     LOGGER("print >>> %s", mSpace);
     pthread_setspecific(guard, (void *) 0);
 }
