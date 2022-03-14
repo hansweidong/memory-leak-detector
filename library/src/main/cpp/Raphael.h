@@ -31,6 +31,7 @@ public:
     void stop(JNIEnv *env, jobject obj);
     void print(JNIEnv *env, jobject obj);
 private:
+    void removeFile(const char *filepath);
     void clean_cache(JNIEnv *env);
     void dump_system(JNIEnv *env);
 private:
