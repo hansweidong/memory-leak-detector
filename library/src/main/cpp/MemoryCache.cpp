@@ -169,13 +169,13 @@ void MemoryCache::print() {
     }
     void *dl_cache = nullptr;
 
-    pthread_mutex_lock(&alloc_mutex);
+//    pthread_mutex_lock(&alloc_mutex);
     for (auto p : alloc_table) {
         for (; p != nullptr; p = p->next) {
             write_trace(report, p, nullptr, &dl_cache);
         }
     }
-    pthread_mutex_lock(&alloc_mutex);
+//    pthread_mutex_lock(&alloc_mutex);
 
     xdl_addr_clean(&dl_cache);
     fclose(report);
