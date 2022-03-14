@@ -23,17 +23,6 @@
 #include "PltGotHookProxy.h"
 
 //**************************************************************************************************
-
-void removeFile(const char *filepath) {
-    LOGGER("removefile name %s", filepath);
-    FILE *file;
-    file = fopen(filepath, "r");
-    if (file) {
-        fclose(file);
-        remove(filepath);
-    }
-}
-
 void Raphael::start(JNIEnv *env, jobject obj, jint configs, jstring space, jstring regex) {
     const char *string = (char *) env->GetStringUTFChars(space, 0);
     size_t length = strlen(string);
