@@ -12,8 +12,8 @@ repositories {
     }
 }
 
-group = 'com.github.memory-leak-detector'
-version = '0.2.0'
+group = 'com.github.hansweidong'
+version = '0.2.8'
 
 android {
     compileSdkVersion 28
